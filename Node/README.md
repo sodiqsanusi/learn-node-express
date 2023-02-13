@@ -25,3 +25,20 @@ The `index.js` was the path to the JavaScript file to be run with Node. Be sure 
 
 # The Node REPL (Read Evaluation Print Loops)
 
+The Node REPL allows you to write & run code continously in the terminal itself. This means that you don't have to create a Javascript file or something. You can start the REPL by just typing the below command on your terminal (Node should have been installed beforehand). This is similar to the console on a browser.
+
+```bash
+node
+```
+
+yup, just that.
+
+> If you wanted to autocomplete by pressing the 'Tab' button but it doesn't work due to multiple possibilities of what might be autocompleted. Pressing the 'Tab' button again will give you a list of the possible autocompletes
+
+You can use the 'Control + C' key combination to exit the REPL
+
+# Native Node Modules
+
+When you install Node, it already comes bundled with some inbuilt modules (modules are libraries of code that have been written to help in some of your tasks with Node).
+
+I'll be writing codes regarding this [in this file](./nativeNodeModules.js)
