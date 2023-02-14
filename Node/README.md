@@ -42,3 +42,25 @@ You can use the 'Control + C' key combination to exit the REPL
 When you install Node, it already comes bundled with some inbuilt modules (modules are libraries of code that have been written to help in some of your tasks with Node).
 
 I'll be writing codes regarding this [in this file](./nativeNodeModules.js)
+
+# The NPM Package Manager & installing external Node Modules
+
+NPM comes inbuilt when you install Node on your PC and it serves as a store from which you can get external modules from. NPM is a PACKAGE MANAGER, fully called "Node Package Manager".
+
+Using external modules help reuse code that you might need, saving you time and effort that's required to write the code yourself.
+
+To get started with creating a NPM module, you have to initialise one
+```bash
+npm init
+```
+
+...and answer the prompts rightly. That process will create a package.json file, which will be a description of all the packages you're using in your application
+
+To install an NPM module, you have to install it. 
+```bash
+npm install package-name
+```
+
+To get more info, you can also check the [NPM docs](https://www.npmjs.com/) 
+
+All code I'll be using regarding this, is [here](./NPM%20Modules/index.js)
