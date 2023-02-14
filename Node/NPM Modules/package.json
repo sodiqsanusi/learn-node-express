@@ -1,0 +1,11 @@
+{
+  "name": "npm-modules",
+  "version": "1.0.0",
+  "description": "A playaround with NPM Modules (it's nice redoing all this honestly)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sodiq Sanusi",
+  "license": "ISC"
+}
