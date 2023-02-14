@@ -67,6 +67,6 @@ All code I'll be using regarding this, is [here](./NPM%20Modules/index.js)
 
 # The next step!
 
-Now we'll be moving along to a framework that' built on Node called [Express](https://expressjs.com/)
+Now we'll be moving along to a framework that's built on Node called [Express](https://expressjs.com/)
 
 I'll be documenting along [here](../Express/README.md)
