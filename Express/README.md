@@ -15,3 +15,16 @@ npm install express
 # Creating a basic server with Express
 
 All code written [here](./my-express-server/server.js)
+
+# Nodemon
+
+This is a package that'll allow us auto-restart our servers when the files are changed, saving us time.
+You can learn more about Nodemon [here](https://nodemon.io/)
+
+To install (which is advisable to do globally): 
+
+```bash
+npm install -g nodemon
+```
+
+# 
