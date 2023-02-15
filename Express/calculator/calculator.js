@@ -47,3 +47,17 @@ app.post('/', (req, res) => {
   res.send(`<h2>The result of your calculation is ${result}</h2>`);
 })
 
+//* A challenge to calculate the BMI of a user when entered in a form
+
+app.get('/bmicalculator', (req, res) => {
+  res.sendFile(`${__dirname}/bmiCalculator.html`)
+})
+
+app.post('/bmicalculator', (req, res) => {
+  let weight = parseFloat(req.body.weight);
+  let height = parseFloat(req.body.height) / 100;
+  height = height**2
+
+  let BMIResult = (weight/height).toFixed(2)
+  res.send(`<h2>Your BMI is ${BMIResult}</h2>`)
+})
