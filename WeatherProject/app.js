@@ -1,10 +1,15 @@
-const express = require('express');
+//* Native Node Modules
 const https = require('https');
+//* 3rd-Party Modules (Have to be installed from npm/yarn)
+const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
 
+//* This allows 'body-parser' to have access to getting information from our server
+//* 'urlencoded' is used when getting data from a HTML form
 app.use(bodyParser.urlencoded({extended: true}))
+
 
 
 // app.get('/', (req, res) => {
