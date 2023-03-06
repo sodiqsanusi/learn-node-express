@@ -41,15 +41,15 @@ app.post('/', (req, res) => {
   let url = `https://us14.api.mailchimp.com/3.0/lists/${list_id}/`
   let options = {
     method: 'POST',
-    auth: 'ade:eb6dadd9e896ae7265da30812a0d3d25-us14',
+    auth: 'ade:eb6dadd9e896ae7265da30812a0d3d25a-us14',
   }
 
   const testRequest = https.request(url, options, (response) => {
 
     if(response.statusCode === 200){
-      res.send('Your details have been successfully saved');
+      res.sendFile(`${__dirname}/success.html`);
     }else{
-      res.send('There was a problem in saving your details, try again');
+      res.sendFile(`${__dirname}/failure.html`);
     }
 
     response.on('data', (data) => {
@@ -69,4 +69,9 @@ app.post('/', (req, res) => {
 // c292cd123a
 
 // API Route
-// "https://$API_SERVER.api.mailchimp.com/3.0/lists/$list_id/members"
+// "https://$API_SERVER.api.mailchimp.com/3.0/lists/$list_id/members
+
+
+app.post('/failure', (req, res) => {
+  res.sendFile(`${__dirname}/signup.html`);
+})
