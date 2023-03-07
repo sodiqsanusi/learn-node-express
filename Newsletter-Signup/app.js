@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const request = require('request');
+// const request = require('request');
 const https = require('https');
 
 let app = express();
@@ -10,7 +11,7 @@ app.use(express.static('public'))
 //* The string used in the method above should be the name of the folder on the server where you want to save your static files.
 app.use(bodyParser.urlencoded({extended: true}))
 
-let port = 3000;
+let port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('Currently listening to port ' + port)
 })
@@ -23,6 +24,7 @@ app.post('/', (req, res) => {
   const fName = req.body.fName;
   const lName = req.body.lName;
   const email = req.body.mail;
+
   let data = {
     members: [{
       email_address: email,
@@ -37,11 +39,12 @@ app.post('/', (req, res) => {
   let JSONData = JSON.stringify(data);
   // This JSONData above is what we'll be sending to the mailChimp's API
 
+  const API_KEY = process.env.API_KEY
   const list_id = 'c292cd123a';
   let url = `https://us14.api.mailchimp.com/3.0/lists/${list_id}/`
   let options = {
     method: 'POST',
-    auth: 'ade:eb6dadd9e896ae7265da30812a0d3d25a-us14',
+    auth: `ade:${API_KEY}`,
   }
 
   const testRequest = https.request(url, options, (response) => {
@@ -54,6 +57,7 @@ app.post('/', (req, res) => {
 
     response.on('data', (data) => {
       data = JSON.parse(data);
+
       console.log(data)
     })
   })
@@ -63,8 +67,6 @@ app.post('/', (req, res) => {
 
 })
 
-// API KEY
-//eb6dadd9e896ae7265da30812a0d3d25-us14
 // Audience ID
 // c292cd123a
 
