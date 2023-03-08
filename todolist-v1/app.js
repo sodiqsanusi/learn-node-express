@@ -11,6 +11,16 @@ app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 })
 
+let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+
 app.get('/', (req, res) => {
-  res.send('Your backend app is active baby!')
+  let today = new Date().getDay();
+  today = days[today];
+
+  let templatingOptions = {
+    dayOfTheWeek: today
+  }
+  
+  res.render('list', templatingOptions);
 })
