@@ -14,6 +14,40 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 
+app.get('/', (req, res) => {
+
+  let rootRouteOptions = {
+    mainText: homeStartingContent,
+  }
+
+  res.render('home', rootRouteOptions);
+})
+
+app.get('/about', (req, res) => {
+
+  let rootRouteOptions = {
+    mainText: aboutContent,
+  }
+
+  res.render('about', rootRouteOptions);
+})
+
+app.get('/contact', (req, res) => {
+
+  let rootRouteOptions = {
+    mainText: contactContent,
+  }
+
+  res.render('contact', rootRouteOptions);
+})
+app.get('/compose', (req, res) => {
+
+  res.render('compose');
+})
+
+app.post('/compose', (req, res) => {
+  console.log(req.body.postTitle)
+})
 
 
 
@@ -23,9 +57,7 @@ app.use(express.static("public"));
 
 
 
-
-
-
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
+let port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("Server started on port " + port);
 });
