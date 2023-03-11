@@ -5,14 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todolist with EJS</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<%  if(dayOfTheWeek == 'Friday' ||dayOfTheWeek == 'Saturday' ||dayOfTheWeek =='Sunday') { %>
-  <h1 style="color: seagreen;">It's a <%= dayOfTheWeek %>!</h1>
-  <p>The weekend is here kidss!</p>
-<% } else { %>
-  <h1 style="color: darkslateblue;">It's a <%= dayOfTheWeek %>!</h1>
-  <p>A workday, off to make a living!</p>
-<% } %>
+  <div class="box" id="heading">
+    <h1> <%= dayOfTheWeek %> </h1>
+  </div>
+  
+  <div class="box">
+    <% for(let todo of todos){ %> 
+      <div class="item">
+        <input type="checkbox">
+        <p> <%= todo %> </p>
+      </div>
+    <% } %> 
+    <form action="/" method="POST" class="item">
+      <input type="text" name="new" id="newTask" placeholder="New Task" autocomplete="off">
+      <button type="submit">+</button>
+    </form>
+  </div>
 </body>
 </html>
