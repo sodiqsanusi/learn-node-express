@@ -1,7 +1,14 @@
 <%- include('partials/header') %>
 <h1>Compose</h1>
 <form action="/compose" method="POST">
-  <input type="text" name="postTitle" id="newText">
-  <button type="submit">Publish</button>
+  <div class="mb-3" style="margin-bottom: 1rem;">
+    <label for="postTitle" class="form-label">Title</label>
+    <input type="text" class="form-control" name="postTitle" id="postTitle" required>
+  </div>
+  <div class="mb-5" style="margin-bottom: 1rem;">
+    <label for="postText" class="form-label">Post</label>
+    <textarea class="form-control" name="postBody" id="postText" required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Publish</button>
 </form>
 <%- include('partials/footer') %>
