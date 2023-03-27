@@ -2,46 +2,60 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/testDB');
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  age: Number,
-});
-
 const fruitSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: [true, "Where's the name of your fruit?"],
+  },
   rating: Number,
   review: String,
 });
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  favouriteFruit: fruitSchema,
+});
+
+
 
 const Person = new mongoose.model('Person', personSchema);
 
 const Fruit = new mongoose.model('Fruit', fruitSchema);
 
-let dele = new Person({
-  name: 'Dele',
-  age: 25,
-})
-
-let apple = new Fruit({
-  name: 'Apple',
-  rating: 8,
-  review: "I really don't mind them apples"
-})
-let pawpaw = new Fruit({
-  name: 'Paw-Paw',
-  rating: 2,
-  review: "Never liked it, no reason"
-})
-let dates = new Fruit({
-  name: 'Palm Dates',
+let pineapple = new Fruit({
+  name: "Pineapple",
   rating: 9,
-  review: 'Sugary and healthy, what else could I ask for🤩'
+  review: "Pinapples are so so juicyy!"
 })
 
-Fruit.find().then((results) => {
-  for(let fruit of results){
-    console.log(fruit.name)
-  }
-}).catch((err) => {
-  console.log(err, "There was an error in getting the fruits from the database")
+pineapple.save();
+
+let amy = new Person({
+  name: "Amy",
+  age: 18,
+  favouriteFruit: pineapple,
 })
+
+// amy.save().then(() => console.log("Amy was saved in the DB"));
+
+let johnFruit = Fruit.findOne({name: "Apple"}).then((res) => {
+  // Person.updateOne({name: "John"}, {$set: {favouriteFruit: res}}).then((res) => {
+  //   console.log(res)
+  // })
+});
+let deleFruit = Fruit.findOne({name: "Palm Dates"}).then((res) => {
+  // Person.updateOne({name: "Dele"}, {$set: {favouriteFruit: res}}).then(
+  //   () => console.log("Dele has been updated")
+  // )
+});
+
+// Fruit.find().then((results) => {
+//   for(let fruit of results){
+//     console.log(fruit.name)
+//   }
+//   mongoose.connection.close();
+// }).catch((err) => {
+//   console.log(err, "There was an error in getting the fruits from the database")
+//   mongoose.connection.close();
+// })
