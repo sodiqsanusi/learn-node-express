@@ -52,7 +52,7 @@ app.get('/', async (req, res) => {
   let today = new Date();
   today = today.toLocaleDateString('en-US', options)
   let lilac = await Todo.find({});
-  lilac = lilac.map(todo => todo.name);
+  // lilac = lilac.map(todo => todo.name);
 
   let templatingOptions = {
     dayOfTheWeek: today,
@@ -60,6 +60,12 @@ app.get('/', async (req, res) => {
   }
   
   res.render('list', templatingOptions);
+})
+
+app.get('/:customListName', (req, res) => {
+  console.log(req.params.customListName)
+
+  res.send(`Welcome to ${req.params.customListName}`)
 })
 
 app.post('/', (req, res) => {
@@ -75,3 +81,13 @@ app.post('/', (req, res) => {
 
   res.redirect('/');
 }) 
+
+app.post('/delete', (req, res) => {
+  let todoToBeRemoved = req.body.todoChecked;
+  Todo.findByIdAndRemove(todoToBeRemoved).then(response => {
+    console.log(response);
+    res.redirect('/');
+  }).catch(err => {
+    console.log(err, "Was unable to delete the todo");
+  })
+});
