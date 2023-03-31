@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-mongoose.connect('mongodb://localhost:27017/todoDB');
+mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost:27017/todoDB');
 
 const todoSchema = new mongoose.Schema({
   name: {
@@ -45,7 +45,6 @@ let options = {
   day: 'numeric',
   weekday: 'long',
 }
-let items = [];
 
 
 app.get('/', async (req, res) => {
@@ -60,12 +59,6 @@ app.get('/', async (req, res) => {
   }
   
   res.render('list', templatingOptions);
-})
-
-app.get('/:customListName', (req, res) => {
-  console.log(req.params.customListName)
-
-  res.send(`Welcome to ${req.params.customListName}`)
 })
 
 app.post('/', (req, res) => {
