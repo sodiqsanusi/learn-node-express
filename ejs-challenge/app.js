@@ -30,14 +30,6 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-let posts = [];
-
-let convertToLinkParam = (textToBeConverted) => {
-  let test = _.lowerCase(textToBeConverted);
-  test = _.replace(test, /\W/g, '-');
-  return test;
-}
-
 
 
 app.get('/', (req, res) => {
@@ -48,7 +40,7 @@ app.get('/', (req, res) => {
     }
     res.render('home', rootRouteOptions);
   }).catch(err => {
-    console.log("Couldn't get all posts")
+    console.log("Couldn't get all posts", err)
   });
 })
 
@@ -79,8 +71,11 @@ app.post('/compose', (req, res) => {
     title: req.body.postTitle,
     content: req.body.postBody,
   })
-  newPost.save();
-  res.redirect('/')
+  newPost.save().then(() => {
+    res.redirect('/')
+  }).catch(err => {
+    console.log("There was an error in saving your post", err)
+  })
 })
 
 app.get('/posts/:postID', (req, res) => {
@@ -102,7 +97,7 @@ app.get('/posts/:postID', (req, res) => {
   //   }
   // }
 
-  Post.find({_id: gottenId}).then(response => {
+  Post.findOne({_id: gottenId}).then(response => {
     res.render('post', {
       title: response.title,
       content: response.content
