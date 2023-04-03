@@ -24,11 +24,19 @@ let articleSchema = new Mongoose.Schema({
 const Article = new Mongoose.model('Article', articleSchema);
 
 app.get('/', (req, res) => {
-  res.send("Welcome to the homepage of Ade's wiki!")
+  res.send("Welcome to the homepage of Ade's wiki!");
+})
+
+app.get('/articles', (req, res) => {
+  Article.find({}).then(response => {
+    res.status(200).json(response);
+  }).catch(err => {
+    res.status(404).send(err, "There was an error getting all articles from the server");
+  })
 })
 
 let port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log("Server started on port:" + port)
+  console.log("Server started on port:" + port);
 })
