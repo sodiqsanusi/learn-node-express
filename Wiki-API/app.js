@@ -27,13 +27,33 @@ app.get('/', (req, res) => {
   res.send("Welcome to the homepage of Ade's wiki!");
 })
 
-app.get('/articles', (req, res) => {
-  Article.find({}).then(response => {
-    res.status(200).json(response);
-  }).catch(err => {
-    res.status(404).send(err, "There was an error getting all articles from the server");
+app.route('/articles')
+  .get((req, res) => {
+    Article.find({}).then(response => {
+      res.status(200).json(response);
+    }).catch(err => {
+      res.status(404).send(err, "There was an error getting all articles from the server");
+    })
   })
-})
+  .post((req, res) => {
+    let newArticle = new Article({
+      title: req.body.title,
+      content: req.body.content
+    });
+
+    newArticle.save().then(() => {
+      res.status(201).send("The article has been added to the database successfully")
+    }).catch(err => {
+      res.status(500).send(err + " There was an error in saving the article, try again?")
+    })
+  })
+  .delete((req, res) => {
+    Article.deleteMany({}).then(() => {
+      res.status(200).send("All articles in the database has been deleted successfully")
+    }).catch(err => {
+      res.status(500).send("Deleting all articles from the database was unsuccessful " + err)
+    })
+  });
 
 let port = process.env.PORT || 3000;
 
