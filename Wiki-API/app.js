@@ -27,6 +27,9 @@ app.get('/', (req, res) => {
   res.send("Welcome to the homepage of Ade's wiki!");
 })
 
+
+//////////////////////////* Request targeting all articles ///////////////////////////////////
+
 app.route('/articles')
   .get((req, res) => {
     Article.find({}).then(response => {
@@ -54,6 +57,60 @@ app.route('/articles')
       res.status(500).send("Deleting all articles from the database was unsuccessful " + err)
     })
   });
+
+//////////////////////////* Request targeting a specific article ///////////////////////////////////
+
+app.route('/articles/:id')
+  .get((req, res) => {
+    Article.findById(req.params.id).then(response => {
+      res.status(200).json(response)
+    }).catch(err => {
+      res.status(404).send(err)
+    })
+  })
+  .put((req, res) => {
+    let newContent = {
+      title: req.body.title,
+      content: req.body.content
+    }
+    Article.replaceOne({_id: req.params.id}, newContent).then((response) => {
+      if(response.modifiedCount > 0) {
+        if(req.body.title && req.body.content) {
+          res.status(201).send(`Article ${req.params.id} has been totally replaced with new content`) 
+        }else{ throw new Error("The required fields are not populated")}
+      }else{
+        throw new Error("Couldn't find the article with the inputted ID")
+      }
+    }).catch(err => {
+      res.status(500).send(`Totally updating article ${req.params.id} was unsuccessful ` + err)
+    })
+  })
+  .patch((req, res) => {
+    let fieldsToUpdate = req.body;
+    Article.updateOne({_id: req.params.id}, fieldsToUpdate).then(response => {
+      if(response.matchedCount < 1) {
+        throw new Error("Didn't find any document with the specified ID");
+      } else{
+        res.status(201).send(`Some fields in article ${req.params.id} were updated successfully`);
+      }
+    }).catch(err => {
+      res.status(500).send(`Updating some fields in article ${req.params.id} was unsuccessful ` + err);
+    })
+  })
+  .delete((req, res) => {
+    Article.findByIdAndDelete(req.params.id).then(response => {
+      if(!response){
+        throw new Error("Can't find a document with the inputted ID")
+      }else{
+        res.status(200).send(`Article ${req.params.id} has been successfully deleted`)
+      }
+    }).catch(err => {
+      res.status(500).send(`Deleting article ${req.params.id} was unsuccessful || ${err}`)
+    })
+  });
+
+
+
 
 let port = process.env.PORT || 3000;
 
