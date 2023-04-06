@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
@@ -46,7 +47,6 @@ app.route('/register')
     })
 
     newUser.save().then(() => {
-      console.log(req.body.username, req.body.password);
       console.log("A new user has been saved correctly")
       res.render("secrets");
     }).catch(err => {
