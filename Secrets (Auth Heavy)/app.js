@@ -1,6 +1,7 @@
 const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const encrypt = require("mongoose-encryption");
 
 mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost:27017/secretsDB');
 
@@ -23,6 +24,10 @@ let userSchema = new mongoose.Schema({
   },
 })
 
+const encryptSecret = process.env.ENCRYPT_SECRET || "Thiswillbeourlittlesecret?";
+
+userSchema.plugin(encrypt, {secret: encryptSecret, encryptedFields: ['password']});
+
 let User = new mongoose.model('User', userSchema);
 
 
@@ -36,7 +41,7 @@ app.route('/register')
   })
   .post((req, res) => {
     let newUser = new User({
-      email: req.body.username,
+      email: req.body.username.toLowerCase(),
       password: req.body.password,
     })
 
@@ -54,12 +59,16 @@ app.route('/login')
     res.render('login');
   })
   .post((req, res) => {
-    let name = req.body.username;
+    let name = req.body.username.toLowerCase();
     let password = req.body.password;
 
-    User.findOne({email: name, password: password}).then((response) => {
+    User.findOne({email: name}).then((response) => {
       if(!response) throw new Error("Didn't find a user with the given details")
-      res.render('secrets')
+      if(response.password == password){
+        res.render('secrets')
+      }else{
+        throw new Error("Wrong password inputted for the user")
+      }
     }).catch(err => {
       res.send(err + " There was an error in logging you in. Try again")
     })
