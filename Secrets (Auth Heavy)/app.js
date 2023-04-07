@@ -46,13 +46,12 @@ app.route('/register')
   })
   .post((req, res) => {
 
-    bcrypt.hash(req.body.password, encryptionSaltRounds, (err, hash) => {
-      if(err) res.send("There was a problem in creating your account, try again")
-
+    bcrypt.hash(req.body.password, encryptionSaltRounds).then(hash => {
       let newUser = new User({
         email: req.body.username.toLowerCase(),
         password: hash,
       })
+
       newUser.save().then(() => {
         console.log("A new user has been saved correctly")
         res.render("secrets");
@@ -60,8 +59,9 @@ app.route('/register')
         console.log(err, "There was an error in creating a user with your details. Try again")
       })
 
-    });
-
+    }).catch(err => {
+      console.log(err, "There was an error in creating a user with your details. Try again")
+    })
   });
 
 app.route('/login')
